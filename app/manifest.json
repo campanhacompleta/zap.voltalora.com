@@ -1,8 +1,8 @@
 {
-  "name": "Ping",
-  "description": "Telegram Web App.\nMore info & source code here: https://github.com/zhukov/webogram",
+  "name": " Zap da Lôra",
+  "description": " Zap da Lôra powered by Telegram Web App",
   "version": "0.5.5",
-  "short_name": "Ping",
+  "short_name": "Zap da Lôra",
   "manifest_version": 2,
   "app": {
     "background": {

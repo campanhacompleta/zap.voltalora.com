@@ -7,6 +7,11 @@
 
 'use strict'
 
+
+var destaques = [
+  'luizianne13'
+]
+
 /* Controllers */
 
 angular.module('myApp.controllers', ['myApp.i18n'])
@@ -692,6 +697,8 @@ angular.module('myApp.controllers', ['myApp.i18n'])
     $scope.foundPeers = []
     $scope.foundMessages = []
 
+    $scope.destaques = []
+
     if ($scope.search === undefined) {
       $scope.search = {}
     }
@@ -750,9 +757,24 @@ angular.module('myApp.controllers', ['myApp.i18n'])
           peersInDialogs[peerID] = true
           newPeer = true
         }
-        $scope.dialogs.unshift(
-          AppMessagesManager.wrapForDialog(dialog.top_message, dialog)
-        )
+
+        // redelivre
+        var wrappedDialog = AppMessagesManager.wrapForDialog(dialog.top_message, dialog)
+
+        if (isDestaque(wrappedDialog)) {
+
+          for (var i = 0; i < $scope.destaques.length; i++) {
+            if (
+              $scope.destaques[i].peerID == wrappedDialog.peerID
+            ) {
+              // skip if already added
+              return;
+            }
+          }
+          $scope.destaques.unshift(wrappedDialog)
+        } else {
+          $scope.dialogs.unshift(wrappedDialog)
+        }
       })
 
       $scope.dialogs.sort(function (d1, d2) {
@@ -939,6 +961,24 @@ angular.module('myApp.controllers', ['myApp.i18n'])
       })
     }
 
+    function isDestaque(peer) {
+      for (var i = 0; i < destaques.length; i++) {
+        // check id
+        if (peer.peerID == destaques[i]) {
+          return true
+        }
+        // check name
+        if (
+          peer.peerData &&
+          ( peer.peerData.username == destaques[i] )
+        ) {
+          return true
+        }
+      }
+      // default false
+      return false
+    }
+
     function loadDialogs (force) {
       offsetIndex = 0
       maxID = 0
@@ -972,7 +1012,12 @@ angular.module('myApp.controllers', ['myApp.i18n'])
             } else {
               peersInDialogs[dialog.peerID] = true
             }
-            dialogsList.push(wrappedDialog)
+
+            if (isDestaque(wrappedDialog)) {
+              $scope.destaques.push(wrappedDialog)
+            } else {
+              dialogsList.push(wrappedDialog)
+            }
           })
 
           if (searchMessages) {
@@ -5036,25 +5081,34 @@ angular.module('myApp.controllers', ['myApp.i18n'])
     }
 
     $scope.data = { email: '' };
-    // adiciona o usuário atual nos grupos da redeLivre
-    MtpApiManager.getUserID().then(function (id) {
-      MtpApiManager.invokeApi('messages.addChatUser', {
-        chat_id: '179435650',
-        user_id: {_: 'inputUserSelf'},
-        fwd_limit: 20
-      },
-      {
-        noErrorBox: true
-      })
-      .then(function afterAddUserInChat(r) {
-        console.log('afterAddUser:', r)
-      })
-      .catch(function(err){
-        if (err.type == 'USER_ALREADY_PARTICIPANT') {
-          // já é membro do grupo ...
-        } else {
-          console.error('unknow error on add user:', err)
-        }
+
+    destaques.forEach(function(destaque) {
+      // adiciona o usuário atual nos grupos da redeLivre
+      MtpApiManager.getUserID().then(function (id) {
+        AppPeersManager.resolveUsername(destaque)
+        .then(function(peerID){
+
+          MtpApiManager.invokeApi('messages.addChatUser', {
+            chat_id: peerID,
+            user_id: {_: 'inputUserSelf'},
+            fwd_limit: 20
+          },
+          {
+            noErrorBox: true
+          })
+          .then(function afterAddUserInChat(r) {
+            console.log('afterAddUser:',peerID, r)
+          })
+          .catch(function(err){
+            if (err.type == 'USER_ALREADY_PARTICIPANT') {
+              // já é membro do grupo ...
+            } else {
+              console.error('unknow error on add user:', err)
+            }
+          })
+
+        })
       })
     })
+
   })
