@@ -1,50 +1,12 @@
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
-[![Stories in Ready](https://badge.waffle.io/zhukov/webogram.png?label=ready&title=Ready)](https://waffle.io/zhukov/webogram)
+## Zap da Lôra
 
-## [Webogram](https://web.telegram.org) — Telegram Web App
-
-Telegram offers great [apps for mobile communication](https://www.telegram.org). It is based on the [MTProto protocol](https://core.telegram.org/mtproto) and has an [Open API](https://core.telegram.org/api). I personally like Telegram for its speed and cloud-support (that makes a web app possible, unlike in the case of WA and others).
-
-MTProto data can be carried over HTTP (SSL is also supported), so this project is my take at creating one.
-
-That said, I'm using this app myself and I'd like to share its sources, so anyone can contribute to the development. Any help is welcome!
-
-
-### Interface
-
-
-Here are some screenshots of the interface:
-
-
-![Sample screenshot 1](/app/img/screenshot1.png)
-![Mobile screenshot 2](/app/img/screenshot2.png)
-![Mobile screenshot 3](/app/img/screenshot3.png)
-
+Powered by telegram API
 
 ### Unsupported at the moment
 
 * Secret chats
 * Black list
 * ...
-
-
-### Maintained locations
-
-
-| Description        | URL           | Type  |
-| ------------- |-------------| -----:|
-| Online Web-version (hosted on Telegram servers)      | https://web.telegram.org/ | hosted
-| Online Web-version (hosted on GitHub pages)      | https://zhukov.github.io/webogram | hosted
-| Chrome Web Store      | [https://chrome.google.com/webstore/detail/telegram/ clhhggbfdinjmjhajaheehoeibfljjno](https://chrome.google.com/webstore/detail/telegram/clhhggbfdinjmjhajaheehoeibfljjno) |   packed
-| Firefox & FirefoxOS Marketplace | https://marketplace.firefox.com/app/telegram |    packed
-
-
-
-**Hosted version**: the app is downloaded via HTTPS as a usual website. Will be available offline due to application cache.
-
-**Packed version**: the app is downloaded at once in a package via HTTPS. The package is updated less frequently than the Web-version.
-
-All of the apps above are submitted and maintained by [@zhukov](https://github.com/zhukov), so feel free to use them and report bugs [here](https://github.com/zhukov/webogram/issues). Please do not report bugs which are only reproducible in different locations.
 
 
 ## Technical details
